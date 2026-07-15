@@ -56,7 +56,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto 50px auto;
             padding: 0 20px;
         }
@@ -86,6 +86,7 @@
         .match-info {
             font-size: 0.85rem;
             color: #94a3b8;
+            min-width: 100px;
         }
 
         .match-year {
@@ -106,14 +107,35 @@
             justify-content: center;
         }
 
+        .team-container {
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .team-container.left {
+            text-align: right;
+            align-items: flex-end;
+        }
+
+        .team-container.right {
+            text-align: left;
+            align-items: flex-start;
+        }
+
         .team-name {
             font-size: 1.1rem;
             font-weight: bold;
-            width: 120px;
         }
 
-        .team-left { text-align: right; }
-        .team-right { text-align: left; }
+        /* Στυλ για τους Σκόρερ */
+        .scorers {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 5px;
+            font-style: italic;
+            max-width: 180px;
+        }
 
         .score-display {
             font-size: 1.5rem;
@@ -122,7 +144,7 @@
             background-color: #0f172a;
             padding: 5px 15px;
             border-radius: 8px;
-            min-width: 60px;
+            min-width: 70px;
             text-align: center;
         }
     </style>
@@ -131,10 +153,9 @@
 
     <header>
         <h1>🏆 World Cup Archive</h1>
-        <p>Επίλεξε έτος για να δεις τους αγώνες</p>
+        <p>Επίλεξε έτος για να δεις τους αγώνες και τους σκόρερ</p>
     </header>
 
-    <!-- Κουμπιά Φίλτρων για κάθε Μουντιάλ -->
     <div class="filter-container">
         <button class="filter-btn active" onclick="filterMatches('all')">Όλα</button>
         <button class="filter-btn" onclick="filterMatches('2022')">2022</button>
@@ -147,27 +168,89 @@
 
     <div class="container">
         <div class="matches-list" id="matchesContainer">
-            <!-- Εδώ η JavaScript θα εμφανίζει αυτόματα τους αγώνες -->
-        </div>
+            </div>
     </div>
 
     <script>
-        // Δείγμα Δεδομένων (Μπορείς να προσθέσεις όσα ματς θέλεις εδώ!)
+        // Δεδομένα Αγώνων μαζί με τους Σκόρερ (scorers1 για την team1, scorers2 για την team2)
         const matchesData = [
-            { year: "2022", stage: "Τελικός", team1: "Αργεντινή 🇦🇷", team2: "Γαλλία 🇫🇷", score: "3 - 3 (4-2 πεν.)" },
-            { year: "2022", stage: "Ημιτελικός", team1: "Γαλλία 🇫🇷", team2: "Μαρόκο 🇲🇦", score: "2 - 0" },
-            { year: "2018", stage: "Τελικός", team1: "Γαλλία 🇫🇷", team2: "Κροατία 🇭🇷", score: "4 - 2" },
-            { year: "2014", stage: "Τελικός", team1: "Γερμανία 🇩🇪", team2: "Αργεντινή 🇦🇷", score: "1 - 0 (παρ.)" },
-            { year: "2014", stage: "Ημιτελικός", team1: "Βραζιλία 🇧🇷", team2: "Γερμανία 🇩🇪", score: "1 - 7" },
-            { year: "2010", stage: "Τελικός", team1: "Ισπανία 🇪🇸", team2: "Ολλανδία 🇳🇱", score: "1 - 0 (παρ.)" },
-            { year: "2006", stage: "Τελικός", team1: "Ιταλία 🇮🇹", team2: "Γαλλία 🇫🇷", score: "1 - 1 (5-3 πεν.)" },
-            { year: "2002", stage: "Τελικός", team1: "Γερμανία 🇩🇪", team2: "Βραζιλία 🇧🇷", score: "0 - 2" }
+            { 
+                year: "2022", 
+                stage: "Τελικός", 
+                team1: "Αργεντινή 🇦🇷", 
+                scorers1: "Messi 23' (πεν.), 108', Di María 36'",
+                team2: "Γαλλία 🇫🇷", 
+                scorers2: "Mbappé 80' (πεν.), 81', 118' (πεν.)",
+                score: "3 - 3 (4-2 πεν.)" 
+            },
+            { 
+                year: "2022", 
+                stage: "Ημιτελικός", 
+                team1: "Γαλλία 🇫🇷", 
+                scorers1: "T. Hernandez 5', Kolo Muani 79'",
+                team2: "Μαρόκο 🇲🇦", 
+                scorers2: "—",
+                score: "2 - 0" 
+            },
+            { 
+                year: "2018", 
+                stage: "Τελικός", 
+                team1: "Γαλλία 🇫🇷", 
+                scorers1: "Mandžukić 18' (αυτ.), Griezmann 38' (πεν.), Pogba 59', Mbappé 65'",
+                team2: "Κροατία 🇭🇷", 
+                scorers2: "Perišić 28', Mandžukić 69'",
+                score: "4 - 2" 
+            },
+            { 
+                year: "2014", 
+                stage: "Τελικός", 
+                team1: "Γερμανία 🇩🇪", 
+                scorers1: "Götze 113'",
+                team2: "Αργεντινή 🇦🇷", 
+                scorers2: "—",
+                score: "1 - 0 (παρ.)" 
+            },
+            { 
+                year: "2014", 
+                stage: "Ημιτελικός", 
+                team1: "Βραζιλία 🇧🇷", 
+                scorers1: "Oscar 90'",
+                team2: "Γερμανία 🇩🇪", 
+                scorers2: "Müller 11', Klose 23', Kroos 24', 26', Khedira 29', Schürrle 69', 79'",
+                score: "1 - 7" 
+            },
+            { 
+                year: "2010", 
+                stage: "Τελικός", 
+                team1: "Ισπανία 🇪🇸", 
+                scorers1: "Iniesta 116'",
+                team2: "Ολλανδία 🇳🇱", 
+                scorers2: "—",
+                score: "1 - 0 (παρ.)" 
+            },
+            { 
+                year: "2006", 
+                stage: "Τελικός", 
+                team1: "Ιταλία 🇮🇹", 
+                scorers1: "Materazzi 19'",
+                team2: "Γαλλία 🇫🇷", 
+                scorers2: "Zidane 7' (πεν.)",
+                score: "1 - 1 (5-3 πεν.)" 
+            },
+            { 
+                year: "2002", 
+                stage: "Τελικός", 
+                team1: "Γερμανία 🇩🇪", 
+                scorers1: "—",
+                team2: "Βραζιλία 🇧🇷", 
+                scorers2: "Ronaldo 67', 79'",
+                score: "0 - 2" 
+            }
         ];
 
-        // Συνάρτηση που εμφανίζει τους αγώνες στην οθόνη
         function displayMatches(matches) {
             const container = document.getElementById('matchesContainer');
-            container.innerHTML = ''; // Καθαρισμός προηγούμενων αγώνων
+            container.innerHTML = '';
 
             if (matches.length === 0) {
                 container.innerHTML = '<p style="text-align:center; color:#94a3b8;">Δεν βρέθηκαν αγώνες.</p>';
@@ -183,18 +266,22 @@
                         <div>${match.stage}</div>
                     </div>
                     <div class="teams-display">
-                        <span class="team-name team-left">${match.team1}</span>
+                        <div class="team-container left">
+                            <span class="team-name">${match.team1}</span>
+                            <span class="scorers">${match.scorers1}</span>
+                        </div>
                         <span class="score-display">${match.score}</span>
-                        <span class="team-name team-right">${match.team2}</span>
+                        <div class="team-container right">
+                            <span class="team-name">${match.team2}</span>
+                            <span class="scorers">${match.scorers2}</span>
+                        </div>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        // Συνάρτηση Φιλτραρίσματος
         function filterMatches(year) {
-            // Διαχείριση ενεργού κουμπιού στα φίλτρα
             const buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
@@ -207,7 +294,6 @@
             }
         }
 
-        // Αρχική εμφάνιση όλων των αγώνων κατά το άνοιγμα της σελίδας
         displayMatches(matchesData);
     </script>
 </body>
