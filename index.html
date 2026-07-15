@@ -25,7 +25,6 @@
             font-size: 2.5rem;
         }
 
-        /* Μενού Επιλογής Έτους (Φίλτρο) */
         .filter-container {
             display: flex;
             justify-content: center;
@@ -61,7 +60,6 @@
             padding: 0 20px;
         }
 
-        /* Λίστα Αγώνων */
         .matches-list {
             display: flex;
             flex-direction: column;
@@ -108,7 +106,7 @@
         }
 
         .team-container {
-            width: 200px;
+            width: 220px;
             display: flex;
             flex-direction: column;
         }
@@ -128,13 +126,12 @@
             font-weight: bold;
         }
 
-        /* Στυλ για τους Σκόρερ */
         .scorers {
             font-size: 0.75rem;
             color: #94a3b8;
             margin-top: 5px;
             font-style: italic;
-            max-width: 180px;
+            max-width: 200px;
         }
 
         .score-display {
@@ -144,7 +141,7 @@
             background-color: #0f172a;
             padding: 5px 15px;
             border-radius: 8px;
-            min-width: 70px;
+            min-width: 80px;
             text-align: center;
         }
     </style>
@@ -153,7 +150,7 @@
 
     <header>
         <h1>🏆 World Cup Archive</h1>
-        <p>Επίλεξε έτος για να δεις τους αγώνες και τους σκόρερ</p>
+        <p>Προημιτελικοί, Ημιτελικοί και Τελικοί (2002 - 2022)</p>
     </header>
 
     <div class="filter-container">
@@ -172,80 +169,60 @@
     </div>
 
     <script>
-        // Δεδομένα Αγώνων μαζί με τους Σκόρερ (scorers1 για την team1, scorers2 για την team2)
         const matchesData = [
-            { 
-                year: "2022", 
-                stage: "Τελικός", 
-                team1: "Αργεντινή 🇦🇷", 
-                scorers1: "Messi 23' (πεν.), 108', Di María 36'",
-                team2: "Γαλλία 🇫🇷", 
-                scorers2: "Mbappé 80' (πεν.), 81', 118' (πεν.)",
-                score: "3 - 3 (4-2 πεν.)" 
-            },
-            { 
-                year: "2022", 
-                stage: "Ημιτελικός", 
-                team1: "Γαλλία 🇫🇷", 
-                scorers1: "T. Hernandez 5', Kolo Muani 79'",
-                team2: "Μαρόκο 🇲🇦", 
-                scorers2: "—",
-                score: "2 - 0" 
-            },
-            { 
-                year: "2018", 
-                stage: "Τελικός", 
-                team1: "Γαλλία 🇫🇷", 
-                scorers1: "Mandžukić 18' (αυτ.), Griezmann 38' (πεν.), Pogba 59', Mbappé 65'",
-                team2: "Κροατία 🇭🇷", 
-                scorers2: "Perišić 28', Mandžukić 69'",
-                score: "4 - 2" 
-            },
-            { 
-                year: "2014", 
-                stage: "Τελικός", 
-                team1: "Γερμανία 🇩🇪", 
-                scorers1: "Götze 113'",
-                team2: "Αργεντινή 🇦🇷", 
-                scorers2: "—",
-                score: "1 - 0 (παρ.)" 
-            },
-            { 
-                year: "2014", 
-                stage: "Ημιτελικός", 
-                team1: "Βραζιλία 🇧🇷", 
-                scorers1: "Oscar 90'",
-                team2: "Γερμανία 🇩🇪", 
-                scorers2: "Müller 11', Klose 23', Kroos 24', 26', Khedira 29', Schürrle 69', 79'",
-                score: "1 - 7" 
-            },
-            { 
-                year: "2010", 
-                stage: "Τελικός", 
-                team1: "Ισπανία 🇪🇸", 
-                scorers1: "Iniesta 116'",
-                team2: "Ολλανδία 🇳🇱", 
-                scorers2: "—",
-                score: "1 - 0 (παρ.)" 
-            },
-            { 
-                year: "2006", 
-                stage: "Τελικός", 
-                team1: "Ιταλία 🇮🇹", 
-                scorers1: "Materazzi 19'",
-                team2: "Γαλλία 🇫🇷", 
-                scorers2: "Zidane 7' (πεν.)",
-                score: "1 - 1 (5-3 πεν.)" 
-            },
-            { 
-                year: "2002", 
-                stage: "Τελικός", 
-                team1: "Γερμανία 🇩🇪", 
-                scorers1: "—",
-                team2: "Βραζιλία 🇧🇷", 
-                scorers2: "Ronaldo 67', 79'",
-                score: "0 - 2" 
-            }
+            // --- 2022 ---
+            { year: "2022", stage: "Τελικός", team1: "Αργεντινή 🇦🇷", scorers1: "Messi 23' (πεν.), 108', Di María 36'", team2: "Γαλλία 🇫🇷", scorers2: "Mbappé 80' (πεν.), 81', 118' (πεν.)", score: "3 - 3 (4-2 πεν.)" },
+            { year: "2022", stage: "Ημιτελικός", team1: "Αργεντινή 🇦🇷", scorers1: "Messi 34' (πεν.), Álvarez 39', 69'", team2: "Κροατία 🇭🇷", scorers2: "—", score: "3 - 0" },
+            { year: "2022", stage: "Ημιτελικός", team1: "Γαλλία 🇫🇷", scorers1: "T. Hernandez 5', Kolo Muani 79'", team2: "Μαρόκο 🇲🇦", scorers2: "—", score: "2 - 0" },
+            { year: "2022", stage: "Προημιτελικός", team1: "Ολλανδία 🇳🇱", scorers1: "Weghorst 83', 90+11'", team2: "Αργεντινή 🇦🇷", scorers2: "Molina 35', Messi 73' (πεν.)", score: "2 - 2 (3-4 πεν.)" },
+            { year: "2022", stage: "Προημιτελικός", team1: "Κροατία 🇭🇷", scorers1: "Petković 117'", team2: "Βραζιλία 🇧🇷", scorers2: "Neymar 105+1'", score: "1 - 1 (4-2 πεν.)" },
+            { year: "2022", stage: "Προημιτελικός", team1: "Αγγλία 🏴󠁧󠁢󠁥󠁮󠁧󠁿", scorers1: "Kane 54' (πεν.)", team2: "Γαλλία 🇫🇷", scorers2: "Tchouaméni 17', Giroud 78'", score: "1 - 2" },
+            { year: "2022", stage: "Προημιτελικός", team1: "Μαρόκο 🇲🇦", scorers1: "En-Nesyri 42'", team2: "Πορτογαλία 🇵🇹", scorers2: "—", score: "1 - 0" },
+
+            // --- 2018 ---
+            { year: "2018", stage: "Τελικός", team1: "Γαλλία 🇫🇷", scorers1: "Mandžukić 18' (αυτ.), Griezmann 38' (πεν.), Pogba 59', Mbappé 65'", team2: "Κροατία 🇭🇷", scorers2: "Perišić 28', Mandžukić 69'", score: "4 - 2" },
+            { year: "2018", stage: "Ημιτελικός", team1: "Γαλλία 🇫🇷", scorers1: "Umtiti 51'", team2: "Βέλγιο 🇧🇪", scorers2: "—", score: "1 - 0" },
+            { year: "2018", stage: "Ημιτελικός", team1: "Κροατία 🇭🇷", scorers1: "Perišić 68', Mandžukić 109'", team2: "Αγγλία 🏴󠁧󠁢󠁥󠁮󠁧󠁿", scorers2: "Trippier 5'", score: "2 - 1 (παρ.)" },
+            { year: "2018", stage: "Προημιτελικός", team1: "Ουρουγουάη 🇺🇾", scorers1: "—", team2: "Γαλλία 🇫🇷", scorers2: "Varane 40', Griezmann 61'", score: "0 - 2" },
+            { year: "2018", stage: "Προημιτελικός", team1: "Βραζιλία 🇧🇷", scorers1: "Renato Augusto 76'", team2: "Βέλγιο 🇧🇪", scorers2: "Fernandinho 13' (αυτ.), De Bruyne 31'", score: "1 - 2" },
+            { year: "2018", stage: "Προημιτελικός", team1: "Σουηδία 🇸🇪", scorers1: "—", team2: "Αγγλία 🏴󠁧󠁢󠁥󠁮󠁧󠁿", scorers2: "Maguire 30', Dele 59'", score: "0 - 2" },
+            { year: "2018", stage: "Προημιτελικός", team1: "Ρωσία 🇷🇺", scorers1: "Cheryshev 31', Fernandes 115'", team2: "Κροατία 🇭🇷", scorers2: "Kramarić 39', Vida 101'", score: "2 - 2 (3-4 πεν.)" },
+
+            // --- 2014 ---
+            { year: "2014", stage: "Τελικός", team1: "Γερμανία 🇩🇪", scorers1: "Götze 113'", team2: "Αργεντινή 🇦🇷", scorers2: "—", score: "1 - 0 (παρ.)" },
+            { year: "2014", stage: "Ημιτελικός", team1: "Βραζιλία 🇧🇷", scorers1: "Oscar 90'", team2: "Γερμανία 🇩🇪", scorers2: "Müller 11', Klose 23', Kroos 24', 26', Khedira 29', Schürrle 69', 79'", score: "1 - 7" },
+            { year: "2014", stage: "Ημιτελικός", team1: "Ολλανδία 🇳🇱", scorers1: "—", team2: "Αργεντινή 🇦🇷", scorers2: "—", score: "0 - 0 (2-4 πεν.)" },
+            { year: "2014", stage: "Προημιτελικός", team1: "Γαλλία 🇫🇷", scorers1: "—", team2: "Γερμανία 🇩🇪", scorers2: "Hummels 13'", score: "0 - 1" },
+            { year: "2014", stage: "Προημιτελικός", team1: "Βραζιλία 🇧🇷", scorers1: "Thiago Silva 7', David Luiz 69'", team2: "Κολομβία 🇨🇴", scorers2: "Rodríguez 80' (πεν.)", score: "2 - 1" },
+            { year: "2014", stage: "Προημιτελικός", team1: "Αργεντινή 🇦🇷", scorers1: "Higuaín 8'", team2: "Βέλγιο 🇧🇪", scorers2: "—", score: "1 - 0" },
+            { year: "2014", stage: "Προημιτελικός", team1: "Ολλανδία 🇳🇱", scorers1: "—", team2: "Κόστα Ρίκα 🇨🇷", scorers2: "—", score: "0 - 0 (4-3 πεν.)" },
+
+            // --- 2010 ---
+            { year: "2010", stage: "Τελικός", team1: "Ολλανδία 🇳🇱", scorers1: "—", team2: "Ισπανία 🇪🇸", scorers2: "Iniesta 116'", score: "0 - 1 (παρ.)" },
+            { year: "2010", stage: "Ημιτελικός", team1: "Ουρουγουάη 🇺🇾", scorers1: "Forlán 41', M. Pereira 90+2'", team2: "Ολλανδία 🇳🇱", scorers2: "Van Bronckhorst 18', Sneijder 70', Robben 73'", score: "2 - 3" },
+            { year: "2010", stage: "Ημιτελικός", team1: "Γερμανία 🇩🇪", scorers1: "—", team2: "Ισπανία 🇪🇸", scorers2: "Puyol 73'", score: "0 - 1" },
+            { year: "2010", stage: "Προημιτελικός", team1: "Ολλανδία 🇳🇱", scorers1: "Sneijder 53', 68'", team2: "Βραζιλία 🇧🇷", scorers2: "Robinho 10'", score: "2 - 1" },
+            { year: "2010", stage: "Προημιτελικός", team1: "Ουρουγουάη 🇺🇾", scorers1: "Forlán 55'", team2: "Γκάνα 🇬🇭", scorers2: "Muntari 45+2'", score: "1 - 1 (4-2 πεν.)" },
+            { year: "2010", stage: "Προημιτελικός", team1: "Αργεντινή 🇦🇷", scorers1: "—", team2: "Γερμανία 🇩🇪", scorers2: "Müller 3', Klose 68', 89', Friedrich 74'", score: "0 - 4" },
+            { year: "2010", stage: "Προημιτελικός", team1: "Παραγουάη 🇵🇾", scorers1: "—", team2: "Ισπανία 🇪🇸", scorers2: "Villa 83'", score: "0 - 1" },
+
+            // --- 2006 ---
+            { year: "2006", stage: "Τελικός", team1: "Ιταλία 🇮🇹", scorers1: "Materazzi 19'", team2: "Γαλλία 🇫🇷", scorers2: "Zidane 7' (πεν.)", score: "1 - 1 (5-3 πεν.)" },
+            { year: "2006", stage: "Ημιτελικός", team1: "Γερμανία 🇩🇪", scorers1: "—", team2: "Ιταλία 🇮🇹", scorers2: "Grosso 119', Del Piero 120+1'", score: "0 - 2 (παρ.)" },
+            { year: "2006", stage: "Ημιτελικός", team1: "Πορτογαλία 🇵🇹", scorers1: "—", team2: "Γαλλία 🇫🇷", scorers2: "Zidane 33' (πεν.)", score: "0 - 1" },
+            { year: "2006", stage: "Προημιτελικός", team1: "Γερμανία 🇩🇪", scorers1: "Klose 80'", team2: "Αργεντινή 🇦🇷", scorers2: "Ayala 49'", score: "1 - 1 (4-2 πεν.)" },
+            { year: "2006", stage: "Προημιτελικός", team1: "Ιταλία 🇮🇹", scorers1: "Zambrotta 6', Toni 59', 69'", team2: "Ουκρανία 🇺🇦", scorers2: "—", score: "3 - 0" },
+            { year: "2006", stage: "Προημιτελικός", team1: "Αγγλία 🏴󠁧󠁢󠁥󠁮󠁧󠁿", scorers1: "—", team2: "Πορτογαλία 🇵🇹", scorers2: "—", score: "0 - 0 (1-3 πεν.)" },
+            { year: "2006", stage: "Προημιτελικός", team1: "Βραζιλία 🇧🇷", scorers1: "—", team2: "Γαλλία 🇫🇷", scorers2: "Henry 57'", score: "0 - 1" },
+
+            // --- 2002 ---
+            { year: "2002", stage: "Τελικός", team1: "Γερμανία 🇩🇪", scorers1: "—", team2: "Βραζιλία 🇧🇷", scorers2: "Ronaldo 67', 79'", score: "0 - 2" },
+            { year: "2002", stage: "Ημιτελικός", team1: "Γερμανία 🇩🇪", scorers1: "Ballack 75'", team2: "Νότια Κορέα 🇰🇷", scorers2: "—", score: "1 - 0" },
+            { year: "2002", stage: "Ημιτελικός", team1: "Βραζιλία 🇧🇷", scorers1: "Ronaldo 49'", team2: "Τουρκία 🇹🇷", scorers2: "—", score: "1 - 0" },
+            { year: "2002", stage: "Προημιτελικός", team1: "Αγγλία 🏴󠁧󠁢󠁥󠁮󠁧󠁿", scorers1: "Owen 23'", team2: "Βραζιλία 🇧🇷", scorers2: "Rivaldo 45+2', Ronaldinho 50'", score: "1 - 2" },
+            { year: "2002", stage: "Προημιτελικός", team1: "Γερμανία 🇩🇪", scorers1: "Ballack 39'", team2: "ΗΠΑ 🇺🇸", scorers2: "—", score: "1 - 0" },
+            { year: "2002", stage: "Προημιτελικός", team1: "Ισπανία 🇪🇸", scorers1: "—", team2: "Νότια Κορέα 🇰🇷", scorers2: "—", score: "0 - 0 (3-5 πεν.)" },
+            { year: "2002", stage: "Προημιτελικός", team1: "Σενεγάλη 🇸🇳", scorers1: "—", team2: "Τουρκία 🇹🇷", scorers2: "İlhan 94'", score: "0 - 1 (παρ.)" }
         ];
 
         function displayMatches(matches) {
