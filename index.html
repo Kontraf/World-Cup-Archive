@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Cup Archive (2002 - 2022)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        /* Μενού Επιλογής Έτους (Φίλτρο) */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px auto;
+            flex-wrap: wrap;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .filter-btn {
+            background-color: #1e293b;
+            color: #f8fafc;
+            border: 2px solid #334155;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #38bdf8;
+            color: #0f172a;
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto 50px auto;
+            padding: 0 20px;
+        }
+
+        /* Λίστα Αγώνων */
+        .matches-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .match-card {
+            background-color: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #334155;
+            transition: transform 0.2s;
+        }
+
+        .match-card:hover {
+            transform: scale(1.01);
+        }
+
+        .match-info {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .match-year {
+            background-color: #334155;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: #38bdf8;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        .teams-display {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .team-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 120px;
+        }
+
+        .team-left { text-align: right; }
+        .team-right { text-align: left; }
+
+        .score-display {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #f59e0b;
+            background-color: #0f172a;
+            padding: 5px 15px;
+            border-radius: 8px;
+            min-width: 60px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🏆 World Cup Archive</h1>
+        <p>Επίλεξε έτος για να δεις τους αγώνες</p>
+    </header>
+
+    <!-- Κουμπιά Φίλτρων για κάθε Μουντιάλ -->
+    <div class="filter-container">
+        <button class="filter-btn active" onclick="filterMatches('all')">Όλα</button>
+        <button class="filter-btn" onclick="filterMatches('2022')">2022</button>
+        <button class="filter-btn" onclick="filterMatches('2018')">2018</button>
+        <button class="filter-btn" onclick="filterMatches('2014')">2014</button>
+        <button class="filter-btn" onclick="filterMatches('2010')">2010</button>
+        <button class="filter-btn" onclick="filterMatches('2006')">2006</button>
+        <button class="filter-btn" onclick="filterMatches('2002')">2002</button>
+    </div>
+
+    <div class="container">
+        <div class="matches-list" id="matchesContainer">
+            <!-- Εδώ η JavaScript θα εμφανίζει αυτόματα τους αγώνες -->
+        </div>
+    </div>
+
+    <script>
+        // Δείγμα Δεδομένων (Μπορείς να προσθέσεις όσα ματς θέλεις εδώ!)
+        const matchesData = [
+            { year: "2022", stage: "Τελικός", team1: "Αργεντινή 🇦🇷", team2: "Γαλλία 🇫🇷", score: "3 - 3 (4-2 πεν.)" },
+            { year: "2022", stage: "Ημιτελικός", team1: "Γαλλία 🇫🇷", team2: "Μαρόκο 🇲🇦", score: "2 - 0" },
+            { year: "2018", stage: "Τελικός", team1: "Γαλλία 🇫🇷", team2: "Κροατία 🇭🇷", score: "4 - 2" },
+            { year: "2014", stage: "Τελικός", team1: "Γερμανία 🇩🇪", team2: "Αργεντινή 🇦🇷", score: "1 - 0 (παρ.)" },
+            { year: "2014", stage: "Ημιτελικός", team1: "Βραζιλία 🇧🇷", team2: "Γερμανία 🇩🇪", score: "1 - 7" },
+            { year: "2010", stage: "Τελικός", team1: "Ισπανία 🇪🇸", team2: "Ολλανδία 🇳🇱", score: "1 - 0 (παρ.)" },
+            { year: "2006", stage: "Τελικός", team1: "Ιταλία 🇮🇹", team2: "Γαλλία 🇫🇷", score: "1 - 1 (5-3 πεν.)" },
+            { year: "2002", stage: "Τελικός", team1: "Γερμανία 🇩🇪", team2: "Βραζιλία 🇧🇷", score: "0 - 2" }
+        ];
+
+        // Συνάρτηση που εμφανίζει τους αγώνες στην οθόνη
+        function displayMatches(matches) {
+            const container = document.getElementById('matchesContainer');
+            container.innerHTML = ''; // Καθαρισμός προηγούμενων αγώνων
+
+            if (matches.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#94a3b8;">Δεν βρέθηκαν αγώνες.</p>';
+                return;
+            }
+
+            matches.forEach(match => {
+                const card = document.createElement('div');
+                card.className = 'match-card';
+                card.innerHTML = `
+                    <div class="match-info">
+                        <span class="match-year">${match.year}</span>
+                        <div>${match.stage}</div>
+                    </div>
+                    <div class="teams-display">
+                        <span class="team-name team-left">${match.team1}</span>
+                        <span class="score-display">${match.score}</span>
+                        <span class="team-name team-right">${match.team2}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Συνάρτηση Φιλτραρίσματος
+        function filterMatches(year) {
+            // Διαχείριση ενεργού κουμπιού στα φίλτρα
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (year === 'all') {
+                displayMatches(matchesData);
+            } else {
+                const filtered = matchesData.filter(match => match.year === year);
+                displayMatches(filtered);
+            }
+        }
+
+        // Αρχική εμφάνιση όλων των αγώνων κατά το άνοιγμα της σελίδας
+        displayMatches(matchesData);
+    </script>
+</body>
+</html>
